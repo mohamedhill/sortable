@@ -4,12 +4,15 @@ let searchText = ''
 
 fetching();
 async function fetching(search='') {
+      if (!heroes.length) { 
   try {
     const response = await fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json");
     heroes = await response.json();
   } catch (err) {
     console.error(err);
   }
+}
+
   let table = document.getElementsByTagName('table')[0];
   let tbody = document.getElementsByTagName('tbody')[0]
   tbody.remove()
@@ -76,3 +79,112 @@ let search = document.getElementsByTagName('input')[0]
             fetching(search.value)
             return
 })
+let sortState = { field: "", direction: "asc" };
+
+window.addEventListener("DOMContentLoaded", () => {
+    let sortbutton = Array.from(document.querySelectorAll(".sort"));
+    sortbutton.forEach(function(button){
+        
+        button.addEventListener('click',()=>{
+            console.log("test11");
+            let value =button.getAttribute('sort-value')
+            sortHeroes(value)
+        })
+
+    })
+
+    
+    
+});
+
+function sortHeroes(field) {
+    console.log(heroes);
+
+    if (sortState.field === field) {
+        sortState.direction = sortState.direction === "asc" ? "desc" : "asc";
+    } else {
+        sortState.field = field;
+        sortState.direction = "asc";
+    }
+
+    heroes.sort((a, b) => {
+        let valA = "", valB = "";
+
+        switch (field) {
+            case "name":
+                valA = a.name;
+                valB = b.name;
+                break;
+
+            case "fullName":
+                valA = a.biography.fullName || "";
+                valB = b.biography.fullName || "";
+                break;
+
+            case "intelligence":
+            case "strength":
+            case "speed":
+            case "durability":
+            case "power":
+            case "combat":
+                valA = a.powerstats[field];
+                valB = b.powerstats[field];
+                break;
+
+            case "race":
+                valA = a.appearance.race || "";
+                valB = b.appearance.race || "";
+                break;
+
+            case "gender":
+                valA = a.appearance.gender || "";
+                valB = b.appearance.gender || "";
+                break;
+
+            case "height":
+                valA = parseInt(a.appearance.height[1]) || null;
+                valB = parseInt(b.appearance.height[1]) || null;
+                break;
+
+            case "weight":
+                valA = parseInt(a.appearance.weight[1]) || null;
+                valB = parseInt(b.appearance.weight[1]) || null;
+                break;
+
+            case "birth":
+                valA = a.biography.placeOfBirth || "";
+                valB = b.biography.placeOfBirth || "";
+                break;
+
+            case "alignment":
+                valA = a.biography.alignment || "";
+                valB = b.biography.alignment || "";
+                break;
+        }
+
+
+        const isValAMissing = valA === null || valA === undefined || valA === "" || valA === "-";
+        const isValBMissing = valB === null || valB === undefined || valB === "" || valB === "-";
+
+        if (isValAMissing && !isValBMissing) {
+            
+         return 1;    
+        }
+        if (!isValAMissing && isValBMissing){
+            
+            return -1; 
+        } 
+        if (isValAMissing && isValBMissing){
+            return 0; 
+        } 
+
+      
+        if (typeof valA === "string") {
+            return sortState.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        } else {
+            return sortState.direction === 'asc' ? (valA - valB) : (valB - valA);
+        }
+    });
+
+    fetching(document.querySelector("input[type='search']").value);
+}
