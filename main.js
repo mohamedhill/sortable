@@ -108,7 +108,8 @@ let search = document.getElementsByTagName('input')[0]
         if (search.value!=='') {
             div.style.display = 'none'
             numberOfHeroesInPage = heroes.length
-        } else {            
+        } else {      
+            numberOfHeroesInPage = 20      
             div.style.display = 'flex'
         }
         renderTable(search.value)
