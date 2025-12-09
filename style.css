@@ -23,15 +23,21 @@ header {
     border-radius: 15px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.267)
 }
-header h1 {
+header div {
     width: 25%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+}
+header div img {
+    height: 35px;
 }
 .search {
-    background-color: var(--gray);
+    background: var(--gray);
     display: flex;
     padding: 8px;
     width: 25%;
-    margin-right: 300px;
     border-radius: 20px;
     gap: 5px;
 }
@@ -51,8 +57,9 @@ header h1 {
 .selectors {
     display: flex;
     gap: 10px;
+    border: 1px solid gray;
     justify-content: right;
-    width: 7%;
+    width: 100px;
     padding: 10px;
     border-radius: 15px;
 }
@@ -71,12 +78,16 @@ main {
     margin-left: 1%;
     width: 98%;
     gap: 15px;
-    padding: 20px;
     margin-top: 20px;
     border-radius: 15px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.267)
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.267);
+}
+.table {
+    overflow-y: auto;
+    border-radius: 15px;
 }
 table {
+    width: 100%;
     align-items: center;
     justify-content: center;
     background: var(--gray);
@@ -92,7 +103,11 @@ th {
     background-color: var(--gray);
     padding: 10px;
 }
+th:nth-child(1) {
+    width: 50px;
+}
 th button {
+    
     background-color: none;
     border-radius: 20px;
     font-size: 18px;
@@ -107,6 +122,47 @@ th button:hover {
     color: white;
 }
 td {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0);
     padding: 10px;
+    width: auto;
+}
+
+tr {
+ background-color: #ffffff; 
+ transition: 0.5s;
+}
+
+.alignment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+tr:hover {
+    background-color: #e4e4e4;
+}
+
+#pagination {
+    display: flex;
+    min-width: 250px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#pagination button:not(button.p) {
+    background-color: #e7e7e7;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+#pagination button:not(button.p):hover {
+    color: white;
+    background-color: #4a98ff;
+    border-radius: 12px;
 }

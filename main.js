@@ -1,50 +1,71 @@
+fetching();
 let heroes = [];
 let numberOfHeroesInPage = 20
+let pagination = 0
 let searchText = ''
 
-fetching();
-async function fetching(search='') {
+async function fetching() {
   try {
     const response = await fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json");
     heroes = await response.json();
   } catch (err) {
     console.error(err);
   }
+  renderTable()
+}
+
+function renderTable(search='') {
+
   let table = document.getElementsByTagName('table')[0];
   let tbody = document.getElementsByTagName('tbody')[0]
   tbody.remove()
   tbody = document.createElement('tbody')
   table.appendChild(tbody);
   let index = 0
-  for (let hero of heroes) {
-    console.log(search);
-    
-    if (search =='' ||  hero.name.toLowerCase().includes(search.toLowerCase())) {
+  for (let hero = pagination*numberOfHeroesInPage ; hero < heroes.length;hero++) {    
+    if (search =='' ||  heroes[hero].name.toLowerCase().includes(search.toLowerCase())) {
         if (index==numberOfHeroesInPage) break
         index++
-          let prop = [hero.images.xs , hero.name , hero.biography.fullName ,hero.powerstats.intelligence, hero.powerstats.strength,
-                     hero.powerstats.speed,hero.powerstats.durability,hero.powerstats.power,hero.powerstats.combat , 
-                     hero.appearance.race , hero.appearance.gender ,hero.appearance.height[1] , hero.appearance.weight[1] ,
-                      hero.biography.placeOfBirth , hero.biography.alignment]
+          let prop = [
+            heroes[hero].images.xs,
+            heroes[hero].name,
+            heroes[hero].biography.fullName,
+            heroes[hero].powerstats.intelligence,
+            heroes[hero].powerstats.strength,
+            heroes[hero].powerstats.speed,
+            heroes[hero].powerstats.durability,
+            heroes[hero].powerstats.power,
+            heroes[hero].powerstats.combat, 
+            heroes[hero].appearance.race,
+            heroes[hero].appearance.gender,
+            heroes[hero].appearance.height[1],
+            heroes[hero].appearance.weight[1],
+            heroes[hero].biography.placeOfBirth,
+            heroes[hero].biography.alignment]
         let tr = document.createElement('tr')
         for (let i=0 ; i <15;i++) {
             if (i!= 0 && i!=14) {
                 let td = document.createElement('td')
                 td.textContent = prop[i]
                 tr.append(td)
+                td.style.fontWeight = 700
             } else if (i==14) {
+                let div = document.createElement('div')
+                div.className = 'alignment'
                 let td = document.createElement('td')
-                td.textContent = prop[i]
+                div.textContent = prop[i]
+                td.style.fontWeight = 700
                 if (prop[i] == 'good') {
+                    div.style.backgroundColor = '#befdc2ff'
                     td.style.color = '#02b10bff'
-                    td.style.fontWeight = 700
                 } else if (prop[i] == 'bad') {
+                    div.style.backgroundColor = '#ffc8c8ff'
                     td.style.color = '#ff2252ff'
-                    td.style.fontWeight = 700
                 } else {
+                    div.style.backgroundColor = '#dadadaff'
                     td.style.color = '#333333ff'
-                    td.style.fontWeight = 700
                 }
+                td.append(div)
                 tr.append(td)
             } else {
                 let td = document.createElement('td')
@@ -68,11 +89,46 @@ async function fetching(search='') {
 let select = Array.from(document.getElementsByClassName('selectors'))[0]
     select.addEventListener('click', ()=> {
         numberOfHeroesInPage = +select.value
-        fetching()
+         pagination = 0
+         let p = document.getElementById('para')
+         let div = document.getElementById('pagination')       
+         if (Number.isNaN(numberOfHeroesInPage)) {
+            numberOfHeroesInPage = heroes.length
+            div.style.display = 'none'
+        } else {
+            div.style.display = 'flex'
+            p.textContent = `Page ${pagination+1} of ${Math.ceil(heroes.length/numberOfHeroesInPage)}`
+        }
+         renderTable()
 })
 
 let search = document.getElementsByTagName('input')[0]
-    search.addEventListener('input', ()=> {        
-            fetching(search.value)
-            return
+    search.addEventListener('input', ()=> {
+        let div = document.getElementById('pagination') 
+        if (search.value!=='') {
+            div.style.display = 'none'
+            numberOfHeroesInPage = heroes.length
+        } else {            
+            div.style.display = 'flex'
+        }
+        renderTable(search.value)
+            
+})
+
+document.getElementById('next').addEventListener('click', () => {
+    if (pagination+1 < Math.ceil(heroes.length/numberOfHeroesInPage)) {
+        pagination++
+           let p = document.getElementById('para')
+        p.textContent = `Page ${pagination+1} of ${Math.ceil(heroes.length/numberOfHeroesInPage)}`
+            renderTable()
+    }
+})
+
+document.getElementById('prev').addEventListener('click', () => {
+    if (pagination >0) {
+        pagination--
+        let p = document.getElementById('para')
+        p.textContent = `Page ${pagination+1} of ${Math.ceil(heroes.length/numberOfHeroesInPage)}`
+        renderTable()
+    } 
 })
