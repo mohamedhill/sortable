@@ -45,4 +45,13 @@
 - If you want me to implement any of the improvements above, tell me which one and I will add it.
 
 ---
-Short Arabic note:
+## Contributors
+This project is a **Crossword Game** implemented by the team:
+
+| Member | 
+
+ **Yassine Bourazza**     
+**Ilyas Abid**                   
+**mohamed hilli** 
+
+Thanks to the team.
