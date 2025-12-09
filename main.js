@@ -17,7 +17,7 @@ async function fetching() {
 function renderTable(search = '') {
   let table = document.getElementsByTagName('table')[0];
   let tbody = document.getElementsByTagName('tbody')[0];
-  if (tbody) tbody.remove(); // remove existing tbody if any
+  if (tbody) tbody.remove();
   tbody = document.createElement('tbody');
   table.appendChild(tbody);
 
@@ -88,13 +88,18 @@ function renderTable(search = '') {
 
 let select = Array.from(document.getElementsByClassName('selectors'))[0];
 select.addEventListener('click', () => {
-  numberOfHeroesInPage = +select.value;
+
+  if (select.value === "All") numberOfHeroesInPage = +heroes.length
+
+  else numberOfHeroesInPage = +select.value;
   pagination = 0;
   let p = document.getElementById('para');
   let div = document.getElementById('pagination');
+  let search = document.getElementsByTagName('input')[0];
+  search.value = ''
+
   if (Number.isNaN(numberOfHeroesInPage)) {
     numberOfHeroesInPage = heroes.length;
-    div.style.display = 'none';
   } else {
     div.style.display = 'flex';
     p.textContent = `Page ${pagination + 1} of ${Math.ceil(heroes.length / numberOfHeroesInPage)}`;
@@ -105,12 +110,21 @@ select.addEventListener('click', () => {
 let search = document.getElementsByTagName('input')[0];
 search.addEventListener('input', () => {
   let div = document.getElementById('pagination');
+  let p = document.getElementById('para');
+
   if (search.value !== '') {
-    div.style.display = 'none';
+    console.log("tetdh");
+    select.value = 'All'
+
+
     numberOfHeroesInPage = heroes.length;
+    p.textContent = `Page ${pagination + 1} of ${Math.ceil(heroes.length / numberOfHeroesInPage)}`;
+    console.log(numberOfHeroesInPage);
+
   } else {
     numberOfHeroesInPage = 20;
     div.style.display = 'flex';
+
   }
   renderTable(search.value);
 });
