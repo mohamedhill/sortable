@@ -164,8 +164,8 @@ function sortHeroes(field) {
         }
 
 
-        const isValAMissing = valA === null || valA === undefined || valA === "" || valA === "-" || valA === 0;
-        const isValBMissing = valB === null || valB === undefined || valB === "" || valB === "-" || valB === 0;
+        const isValAMissing = valA === null || valA === undefined || valA === "" || valA === "-" ;
+        const isValBMissing = valB === null || valB === undefined || valB === "" || valB === "-" ;
 
         if (isValAMissing && !isValBMissing) {
 
