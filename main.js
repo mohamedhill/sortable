@@ -111,18 +111,18 @@ let search = document.getElementsByTagName('input')[0];
 search.addEventListener('input', () => {
   let div = document.getElementById('pagination');
   let p = document.getElementById('para');
-
+  pagination = 0
   if (search.value !== '') {
     console.log("tetdh");
     select.value = 'All'
-
-
     numberOfHeroesInPage = heroes.length;
     p.textContent = `Page ${pagination + 1} of ${Math.ceil(heroes.length / numberOfHeroesInPage)}`;
     console.log(numberOfHeroesInPage);
 
   } else {
+    select.value = '20'
     numberOfHeroesInPage = 20;
+    p.textContent = `Page ${pagination + 1} of ${Math.ceil(heroes.length / numberOfHeroesInPage)}`;
     div.style.display = 'flex';
 
   }
@@ -212,6 +212,9 @@ function sortHeroes(field) {
         valB = b.biography.alignment || "";
         break;
     }
+    if (typeof valA === 'string')valA = valA.replace(/^[^a-zA-Z]+/, '').trim().toLowerCase()
+    
+    if (typeof valB === 'string') valB = valB.replace(/^[^a-zA-Z]+/, '').trim().toLowerCase()
 
     const isValAMissing = valA === null || valA === undefined || valA === "" || valA === "-";
     const isValBMissing = valB === null || valB === undefined || valB === "" || valB === "-";

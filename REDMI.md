@@ -46,7 +46,7 @@
 
 ---
 ## Contributors
-This project is a **Crossword Game** implemented by the team:
+This project is a **Sortable** implemented by the team:
 
 | Member | 
 
