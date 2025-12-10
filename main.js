@@ -43,11 +43,9 @@ search.addEventListener('input', () => {
   let p = document.getElementById('para');
   pagination = 0
   if (search.value !== '') {
-    console.log("tetdh");
     select.value = 'All'
     numberOfHeroesInPage = heroes.length;
     p.textContent = `Page ${pagination + 1} of ${Math.ceil(heroes.length / numberOfHeroesInPage)}`;
-    console.log(numberOfHeroesInPage);
 
   } else {
     select.value = '20'

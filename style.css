@@ -111,7 +111,7 @@
       overflow-y: auto;
   }
 
-  
+
   .table {
       overflow-x: auto;
       overflow-y: auto;
@@ -182,7 +182,6 @@
       border-radius: 15px;
   }
 
-  /* Mobile responsive adjustments */
   @media (max-width: 768px) {
       body {
           padding: 5px;
