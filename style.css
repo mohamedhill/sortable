@@ -121,6 +121,8 @@
       color: var(--black);
       border-spacing: 0px 2px;
       min-width: 1200px;
+       overflow-x: auto;
+      overflow-y: auto;
   }
 
   thead {
